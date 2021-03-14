@@ -13,13 +13,13 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class BookListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<Book>> {
+public class BookListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<Book>>, BookListAdapter.OnItemClickListener {
 
     public static final String LOG_TAG = BookListActivity.class.getSimpleName();
 
     private static final int BOOK_LOADER_ID = 1;
 
-    private String BOOK_REQUEST_URL = "https://www.googleapis.com/books/v1/volumes?q=isbn:9781461492986";
+    private String BOOK_REQUEST_URL = "https://www.googleapis.com/books/v1/volumes?q=flowers+inauthor:keyes&maxResults=5";
     private ArrayList<Book> bookList = new ArrayList<Book>();
     private BookListAdapter mAdapter;
     private RecyclerView rvBookList;
@@ -30,7 +30,7 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
 
 
         rvBookList = (RecyclerView)findViewById(R.id.recycler_view);
-        mAdapter = new BookListAdapter(this,bookList);
+        mAdapter = new BookListAdapter(this,bookList,this);
         rvBookList.setAdapter(mAdapter);
         rvBookList.setLayoutManager(new LinearLayoutManager(this));
 
@@ -43,7 +43,7 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
     private void updateUI(ArrayList<Book> list){
         bookList= list;
 
-        mAdapter = new BookListAdapter(this,bookList);
+        mAdapter = new BookListAdapter(this,bookList,this);
         rvBookList.setAdapter(mAdapter);
         rvBookList.setLayoutManager(new LinearLayoutManager(this));
 
@@ -77,5 +77,11 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
     @Override
     public void onLoaderReset(@NonNull Loader<ArrayList<Book>> loader) {
 
+    }
+
+    @Override
+    public void onItemClick(int possition) {
+        Book currentBook = bookList.get(possition);
+        Toast.makeText(this,currentBook.toString(),Toast.LENGTH_SHORT).show();
     }
 }

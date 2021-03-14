@@ -35,4 +35,6 @@ public class BookLoader extends AsyncTaskLoader<ArrayList<Book>> {
     protected void onStartLoading() {
         forceLoad();
     }
+
+
 }

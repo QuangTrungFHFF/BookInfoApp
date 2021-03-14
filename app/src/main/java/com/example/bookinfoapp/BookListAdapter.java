@@ -20,10 +20,12 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
 
     private List<Book> bookList;
     private Context context;
+    private OnItemClickListener mOnItemClickListener;
 
-    public BookListAdapter(Context context,List<Book> bookList) {
+    public BookListAdapter(Context context,List<Book> bookList, OnItemClickListener onItemClickListener) {
         this.bookList = bookList;
         this.context = context;
+        this.mOnItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -32,7 +34,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
         Context context = parent.getContext();
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.book_row,parent,false);
-        ViewHolder viewHolder = new ViewHolder(view);
+        ViewHolder viewHolder = new ViewHolder(view,mOnItemClickListener);
         return viewHolder;
     }
 
@@ -49,17 +51,29 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
         return bookList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         ImageView mCoverResourceId;
         TextView mTitle;
         TextView mAuthor;
+        OnItemClickListener onItemClickListener;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnItemClickListener onItemClickListener)  {
             super(itemView);
             mCoverResourceId = (ImageView)itemView.findViewById(R.id.cover_pic_image_view);
             mTitle = (TextView) itemView.findViewById(R.id.title_text_view);
             mAuthor = (TextView)itemView.findViewById(R.id.author_text_view);
+            this.onItemClickListener = onItemClickListener;
+
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            onItemClickListener.onItemClick(getAdapterPosition());
+        }
+    }
+    public interface OnItemClickListener{
+        void onItemClick(int possition);
     }
 }
