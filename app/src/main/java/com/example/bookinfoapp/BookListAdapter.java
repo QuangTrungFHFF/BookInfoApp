@@ -1,6 +1,11 @@
 package com.example.bookinfoapp;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 
 public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHolder> {
@@ -43,6 +51,8 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
         Book currentBook = bookList.get(position);
         holder.mAuthor.setText(currentBook.getmAuthorsString());
         holder.mTitle.setText(currentBook.getmTitle());
+        //holder.mCoverResourceId.setImageURI(Uri.parse(currentBook.getmCoverResourceId()));
+        new DownloadCover(holder.mCoverResourceId).execute(currentBook.getmCoverResourceId());
 
 
     }
@@ -76,4 +86,38 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
     public interface OnItemClickListener{
         void onItemClick(int possition);
     }
+
+    private class DownloadCover extends AsyncTask<String,Void, Bitmap>{
+
+        ImageView coverImage;
+
+        public DownloadCover(ImageView coverImage) {
+            this.coverImage = coverImage;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... urls) {
+            String urlDisplay = urls[0];
+            Bitmap coverBitmap = null;
+
+            URL coverUrl = QueryUtils.createUrl(urlDisplay);
+
+            try {
+                InputStream ip = coverUrl.openStream();
+                coverBitmap = BitmapFactory.decodeStream(ip);
+            } catch (IOException e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+
+            return coverBitmap;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+            coverImage.setImageBitmap(bitmap);
+        }
+    }
+
 }

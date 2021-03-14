@@ -8,6 +8,9 @@ import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -23,6 +26,7 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
     private ArrayList<Book> bookList = new ArrayList<Book>();
     private BookListAdapter mAdapter;
     private RecyclerView rvBookList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,8 +38,11 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
         rvBookList.setAdapter(mAdapter);
         rvBookList.setLayoutManager(new LinearLayoutManager(this));
 
-        LoaderManager loaderManager = LoaderManager.getInstance(this);
-        loaderManager.initLoader(BOOK_LOADER_ID,null,this);
+        if(isConnected()){
+            LoaderManager loaderManager = LoaderManager.getInstance(this);
+            loaderManager.initLoader(BOOK_LOADER_ID,null,this);
+        }
+
 
 
     }
@@ -83,5 +90,19 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
     public void onItemClick(int possition) {
         Book currentBook = bookList.get(possition);
         Toast.makeText(this,currentBook.toString(),Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * check internet
+     */
+
+    private boolean isConnected(){
+        boolean isConnected = false;
+        ConnectivityManager cm = (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        if(networkInfo!= null && networkInfo.isConnectedOrConnecting()){
+            isConnected = true;
+        }
+        return isConnected;
     }
 }

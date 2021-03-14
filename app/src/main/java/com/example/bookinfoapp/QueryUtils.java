@@ -109,14 +109,21 @@ public class QueryUtils {
             for(int i =0; i<items.length();i++){
                 JSONObject bookItem = items.optJSONObject(i);
                 JSONObject volumeInfo = bookItem.getJSONObject("volumeInfo");
-
+                // Get cover image//
+                JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
+                String coverResourceId = imageLinks.getString("smallThumbnail");
+                coverResourceId = getImageResourceId(coverResourceId);
+                // Get title//
                 String title = volumeInfo.getString("title");
+                // Get all authors//
                 ArrayList<String> authors = new ArrayList<String>();
                 JSONArray authorList = volumeInfo.getJSONArray("authors");
                 for(int j =0; j<authorList.length();j++){
                     authors.add(authorList.getString(j));
                 }
-                Book book = new Book(title,authors);
+
+                // Create book and add to list//
+                Book book = new Book(title,authors,coverResourceId);
                 bookList.add(book);
             }
 
@@ -126,6 +133,11 @@ public class QueryUtils {
 
         return bookList;
 
+    }
+
+    private static String getImageResourceId(String mUri){
+        String result = mUri.replaceFirst("http","https");
+        return result;
     }
 
 }

@@ -9,6 +9,7 @@ public class Book {
     private String mTitle;
     private ArrayList<String> mAuthors;
     private String mCoverResourceId;
+    private boolean hasCoverImage = false;
 
     public Book(String mTitle, ArrayList<String> mAuthors) {
         this.mTitle = mTitle;
@@ -19,6 +20,7 @@ public class Book {
         this.mTitle = mTitle;
         this.mAuthors = mAuthors;
         this.mCoverResourceId = mCoverResourceId;
+        this.hasCoverImage = true;
     }
 
     public ArrayList<String> getmAuthor() {
@@ -41,11 +43,17 @@ public class Book {
         return mCoverResourceId;
     }
 
+    public boolean hasCoverImage(){
+        return hasCoverImage;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
                 "mTitle='" + mTitle + '\'' +
-                ", mAuthor=" + mAuthors +
+                ", mAuthors=" + mAuthors +
+                ", mCoverResourceId='" + mCoverResourceId + '\'' +
+                ", hasCoverImage=" + hasCoverImage +
                 '}';
     }
 }
