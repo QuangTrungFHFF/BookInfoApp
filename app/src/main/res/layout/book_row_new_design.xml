@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="177dp"
+    android:layout_height="167dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <ImageView
         android:layout_width="0dp"
-        android:layout_height="137dp"
+        android:layout_height="120dp"
         android:id="@+id/book_item_bg"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -15,4 +15,48 @@
         android:background="@drawable/container_bg"
         />
 
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:id="@+id/cover_pic_image_view"
+        android:scaleType="centerCrop"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintLeft_toLeftOf="@id/book_item_bg"
+        app:layout_constraintBottom_toBottomOf="@id/book_item_bg"
+        android:background="@drawable/pic_holder_01"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/book_item_bg"
+        app:layout_constraintStart_toEndOf="@id/cover_pic_image_view"
+        app:layout_constraintBottom_toTopOf="@id/author_text_view"
+        android:id="@+id/title_text_view"
+        android:textColor="@color/white"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Title"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/cover_pic_image_view"
+        app:layout_constraintTop_toBottomOf="@id/title_text_view"
+        android:id="@+id/author_text_view"
+        android:textColor="@color/white"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Author"/>
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/ratingBarStyleSmall"
+        app:layout_constraintTop_toBottomOf="@id/author_text_view"
+        app:layout_constraintStart_toEndOf="@id/cover_pic_image_view"
+        app:layout_constraintBottom_toBottomOf="@id/book_item_bg"
+        android:layout_marginStart="8dp"
+        android:numStars="5"
+        android:stepSize="1"
+        android:theme="@style/RatingBar"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

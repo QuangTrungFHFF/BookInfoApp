@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="light_medium_gray">#f3f3f3</color>
+    <color name="dark_dark_blue">#10194F</color>
+    <color name="dark_darker_blue">#010A43</color>
 </resources>
